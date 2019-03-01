@@ -14,7 +14,7 @@ for inf in infiles:
     #print(inf)
     inf_path = indir + "/" + inf
 
-    wb = load_workbook(filename=inf_path, read_only=True)
+    wb = load_workbook(filename=inf_path, read_only=True, data_only=True)
     
     for sheet in wb.worksheets:
         title = sheet.title
