@@ -47,7 +47,7 @@ header = next(reader)
 #print(header)
 
 for n, row in enumerate(reader,1):
-    thold = 20 # km radius 
+    thold = 1 # km radius 
     lv = [0.1,1.0,3.0,5.0]
     count = [0,0,0,0,0]
     nallow = 0
