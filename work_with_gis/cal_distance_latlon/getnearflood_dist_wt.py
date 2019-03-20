@@ -4,9 +4,11 @@
 
 import csv, codecs, time
 import latlon2dis as ll2dis
-from multiprocessing import Pool
+from multiprocessing import Pool, cpu_count
 
 start_time = time.time()
+
+np = cpu_count()
 
 def file_len(fname):
     with open(fname) as f:
@@ -32,6 +34,8 @@ def cal(line):
     #    return None
    
     dis = ll2dis.dis(lat1_d,lon1_d,lat2_d,lon2_d)
+    #print(thold)
+    #return dis
     if(dis <= thold):
         return dis
 
@@ -47,7 +51,7 @@ header = next(reader)
 #print(header)
 
 for n, row in enumerate(reader,1):
-    thold = 1 # km radius 
+    thold = 100 # km radius 
     lv = [0.1,1.0,3.0,5.0]
     count = [0,0,0,0,0]
     nallow = 0
@@ -74,9 +78,9 @@ for n, row in enumerate(reader,1):
     dis_vmax = 0
     vmax = 0
 
-    #cal()
     fflood.seek(0)
     next(fflood)
+    #cal(fflood.readline())
 
     pool = Pool(4)          # Create a multiprocessing Pool
     x = pool.map(cal, fflood)  # process data_inputs iterable with pool
@@ -87,11 +91,15 @@ for n, row in enumerate(reader,1):
     print(len(x))
 
     inone = 0
+    idata = 0
     for ii, ix in enumerate(x,1):
         #print(ix)
         if(ix == None):
             inone = inone + 1
-    #print(inone)
+        else:
+            idata = idata + 1
+    print(inone)
+    print(idata)
 
     #print(value)
 
