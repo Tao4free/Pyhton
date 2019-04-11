@@ -2,8 +2,8 @@
 #        https://gist.github.com/twpayne/4409500
 #        https://gis.stackexchange.com/questions/52705/how-to-write-shapely-geometries-to-shapefiles
 
-#from osgeo import ogr
-import ogr
+from osgeo import ogr
+#import ogr
 import pyproj
 import utm
 #import utmlocal
