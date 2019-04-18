@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/SuperLabeling">
-        <file>icon.png</file>
-        </qresource>
-</RCC>
