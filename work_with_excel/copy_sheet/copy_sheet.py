@@ -13,7 +13,9 @@ wb2 = xl.Workbooks.Open(Filename=path2)
 
 ws1 = wb1.Worksheets("sample")
 
-for i in range(286,392):
+for i in range(291,355):
+    if (i%5 == 0):
+        continue
     newname = "No." + str(i)
     print(newname)
     wsn = wb2.Worksheets.Count
