@@ -1,0 +1,21 @@
+[general]
+name=exercise for creating plugin skeleton
+description=this is a exercise for creating plugin skeleton
+about=exercise
+category=Vector
+version=0.1.0
+qgisMinimumVersion=2.14
+
+author=Tao
+email=lutao@getc.co.jp
+
+icon=icons/freebsd_daemon.jpg
+
+tags=vector,select,selection
+
+homepage=
+tracker=
+repository=
+
+experimental=True
+deprecated=False
