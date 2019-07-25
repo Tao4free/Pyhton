@@ -1,4 +1,4 @@
-#from qgis.PyQt import QtCore, QtGui, QtWidgets
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.gui import QgsMessageBar
 
 def printSth():
