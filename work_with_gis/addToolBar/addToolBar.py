@@ -1,3 +1,5 @@
+#https://qiita.com/ozo360/items/1b8ea895be8ec6d1f5f7
+#https://wiki.qt.io/Qt_for_Python_Tutorial_SimpleDialog
 from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.gui import QgsMessageBar
 from qgis.PyQt.QtWidgets import QApplication, QWidget, QMainWindow
@@ -38,6 +40,8 @@ iface.toolButton.clicked.connect(printSth)
 #        self.layout().addWidget(self.button)
 #        # Add button signal to greetings slot
 #        self.button.clicked.connect(self.greetings)
+#        self.btn1 = QtWidgets.QPushButton("Button", self)
+#        self.btn1.move(30, 50)
 #
 #    # Greets the user
 #    def greetings(self):
@@ -48,3 +52,5 @@ iface.toolButton.clicked.connect(printSth)
 #
 #myDlg = MyDialog()
 #myDlg.show()
+
+
