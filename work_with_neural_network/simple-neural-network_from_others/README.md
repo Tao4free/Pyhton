@@ -1,6 +1,6 @@
 # Notice:
   I copy the repository for code checking, the original one is https://github.com/jonasbostoen/simple-neural-network.
-  If you have any problem with my copy, please contact me, and I will delete it.
+  If you have any problem with the copy, please contact me, and I will delete it.
 
 # Simple Neural Network
 Creating a simple neural network in Python with one input layer (3 inputs) and one output neuron. A neural network with no hidden layers is called a perceptron. In the training_version.py I train the neural network in the clearest way possible, but it's not really useable. The outputs of the training can be found in outputs.txt .
