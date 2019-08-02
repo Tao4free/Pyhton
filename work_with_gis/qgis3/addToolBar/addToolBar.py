@@ -17,7 +17,6 @@ iface.toolButton = QToolButton()
 iface.toolButton.setIcon(QIcon("C:\\Users\\user\\Documents\\favicon.ico") )
 toolbar.addWidget(iface.toolButton)
 iface.toolButton.clicked.connect(printSth)
-#iface.toolButton.clicked.connect(popupW)
 
 
 
