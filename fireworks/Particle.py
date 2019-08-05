@@ -1,15 +1,8 @@
 #https://stavshamir.githueb.io/python/2018/05/26/overloading-constructors-in-python.html
 
-import numpy as np
 import random
-from PyQt5.QtCore import QPoint, QPointF, QRect, QRectF
-from PyQt5.QtCore import QSize, Qt, QTime, QTimer
-from PyQt5.QtGui import QPen, QBrush, QColor, QFontMetrics, QImage
-from PyQt5.QtGui import QPainter, QRadialGradient, QSurfaceFormat
-from PyQt5.QtWidgets import QApplication, QOpenGLWidget, QWidget
-from PyQt5.QtWidgets import QPushButton, QHBoxLayout
-
-import OpenGL.GL as gl
+from PyQt5.QtCore import QPointF
+from PyQt5.QtGui import QPen, QColor
 
 
 class Particle:
@@ -28,66 +21,67 @@ class Particle:
 
     @classmethod
     def byXY(cls, x, y, h):
-        velocity = QPointF(0, random.uniform(-12, -5))
+        height = y
+        lowVel = -11 * (height / 480)
+        highVel = -5 * (height / 480)
+        velocity = QPointF(0, random.uniform(lowVel, highVel))
         position = QPointF(x, y) 
 
         return cls(velocity, position, h, True)
 
     @classmethod
     def byPosition(cls, position, h):
-        # mul = random.uniform(4, 8)
-        mul = 1
+        mul = random.uniform(6, 9)
         randomVel = [random.uniform(-1, 1) * mul for i in range(2)]
         velocity = QPointF(randomVel[0], randomVel[1])
-        # print("velocity", velocity.x(), velocity.y())
-        position = position
-        # print("position", position.x(), position.y())
+        position = QPointF(position.x(), position.y()) 
 
         return cls(velocity, position, h, False)
 
     def applyForce(self, force):
         self.acceleration += force
 
-    def explode(self):
-        if (self.seed and self.velocity.y() > 0):
+    def isExplode(self):
+        if self.seed and self.velocity.y() > 0:
             self.lifespan = 0
             return True
         return False
 
     # Method to update position
     def update(self):
-        # print(self.velocity, self.position)
+        # if not self.seed:
+            # print("OOO_in: ", "dummy", "dummy", self.position.x(), self.position.y(), self.velocity.x(), self.velocity.y(), self.acceleration.x(), self.acceleration.y())
         self.velocity += self.acceleration
         self.position += self.velocity
-        if (not self.seed):
+        if not self.seed:
+            # print("OOO_ou: ", "dummy",  "dummy", self.position.x(), self.position.y(), self.velocity.x(), self.velocity.y(), self.acceleration.x(), self.acceleration.y())
             self.lifespan -= 5.0
-            self.velocity *= 1.0
+            self.velocity *= 0.92
         self.acceleration *= 0
 
     # Method to display
     def display(self):
         ptColor = QColor()
-        # ptColor.setHsv(self.hue, 255, 255, self.lifespan)
-        ptColor.setHsv(self.hue, 255, 255)
-        if (self.explode):
+        ptColor.setHsv(self.hue, 255, 255, self.lifespan)
+        if self.isExplode:
             ptColor.setHsv(self.hue, 255, 255)
 
         # set pen
         self.pen = QPen(ptColor)
-        if (self.seed):
+        if self.seed:
             self.pen.setWidth(4)
         else:
-            self.pen.setWidth(4)
+            self.pen.setWidth(2)
 
     def drawPoint(self, painter):
-        painter.save()
+        painter.save() # not necessay but keep
         painter.translate(0, 0)
         painter.setPen(self.pen)
         painter.drawPoint(self.position)
-        painter.restore()
+        painter.restore() # not necessary but keep
 
     def isDead(self):
-        if (self.lifespan < 0.0):
+        if self.lifespan < 0.0:
             return True
         else:
             return False

@@ -1,15 +1,17 @@
+# https://stackoverflow.com/questions/36894246/qpainterdrawpixmap-doesnt-look-good-and-has-low-quality
+
 import sys                                                               
 
-import math, random                                                                                                                               
-from PyQt5.QtCore import QPoint, QPointF, QRect, QRectF 
-from PyQt5.QtCore import QSize, Qt, QTime, QTimer 
-from PyQt5.QtGui import QPen, QBrush, QColor, QFontMetrics, QImage
-from PyQt5.QtGui import QPainter, QRadialGradient, QSurfaceFormat
+import math, random                                                         
+
+from PyQt5 import QtCore
+from PyQt5.QtCore import QTimer, QPointF, QRect 
+from PyQt5.QtGui import QPen, QBrush, QColor, QPixmap
+from PyQt5.QtGui import QPainter, QSurfaceFormat
 from PyQt5.QtWidgets import QApplication, QOpenGLWidget
 
 import OpenGL.GL as gl                                                        
-
-from Particle import Particle
+from ParticleSystem import Firework
 
 class GLWidget(QOpenGLWidget):
 
@@ -17,58 +19,85 @@ class GLWidget(QOpenGLWidget):
         # To access inherited methods that have been overridden in a class
         super().__init__() # same as super(GLWidget, self).__init__()
 
-        x = self.width() / 2; y = self.height()
-        # x = self.width() / 2; y = self.height() / 2
-        self.position = QPointF(x, y)
-        hue = random.randint(0, 360)
-        self.particle = Particle.byXY(x, y, hue)
-        # self.particle = Particle.byPosition(self.position, hue)
         self.gravity = QPointF(0.0, 0.2)
+        self.fireworks = []
 
         self.animationTimer = QTimer()                    
         self.animationTimer.setSingleShot(False)          
         self.animationTimer.timeout.connect(self.animate) 
-        self.animationTimer.start(20)                     
+        self.animationTimer.start()                     
 
         self.setAutoFillBackground(False)
         self.setMinimumSize(960,480)
         self.setWindowTitle("Watching Fireworks with You!")
 
-    #def initializeGL(self):
+        self.pixmap = QPixmap("01.jpg")
+        # self.pixmap = QPixmap("watcher.jpg")
+
+    # def resizeEvent(self, event):
+        # sef
 
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
         # update the background
-        # bgColor = QColor(Qt.darkGray)
-        # bgColor.setAlpha(100)
         painter.setBrush(QColor(50, 50, 50, 50))
-        # painter.setBrush(bgColor)
         painter.drawRect(0, 0, self.width(), self.height())
 
-        self.particle.drawPoint(painter)
+        # paint the watcher
+        # w = self.width() / 5
+        # h = self.height() / 5
+        w = self.width() / 2
+        h = self.height()
+        ws = 0
+        hs = self.height() - h
+        painter.setOpacity(0.05)
+        painter.drawPixmap(QRect(ws, hs, w, h), self.pixmap)
+        painter.drawPixmap(QRect(w, hs, w, h), self.pixmap)
+        painter.setOpacity(1)
+
+        # paint fireworks
+        for x in range(len(self.fireworks) - 1, -1, -1):
+            f = self.fireworks[x]
+
+            # paint the shooted firework
+            if (f.firework != None):
+                f.firework.drawPoint(painter)
+
+            # paint the exploded firework
+            for i in range(len(f.particles)):
+                p = f.particles[i]
+                p.drawPoint(painter)
 
         painter.end()
 
+    def addFirework(self):
+        if random.random() < 0.05:
+            f = Firework(self.width(), self.height(), self.gravity)
+            self.fireworks.append(f)
+
     def animate(self):
-        self.particle.applyForce(self.gravity)
-        self.particle.update()
+        self.addFirework()
+
+        for i in range(len(self.fireworks) - 1, -1, -1):
+            f = self.fireworks[i]
+            f.shoot()
+            
+            if f.isDone():
+                self.fireworks.remove(f)
 
         self.update()
-
-
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    #fmt = QSurfaceFormat()
-    #fmt.setSamples(4)
-    #QSurfaceFormat.setDefaultFormat(fmt)
+    fmt = QSurfaceFormat()
+    fmt.setSamples(4)
+    QSurfaceFormat.setDefaultFormat(fmt)
 
     window = GLWidget()
-    #window.setFormat(fmt)
-    #window.resize(640, 480)
+    window.setFormat(fmt)
     window.show()
     sys.exit(app.exec_())

@@ -42,16 +42,19 @@ class GLWidget(QOpenGLWidget):
         painter.setBrush(QColor(50, 50, 50, 50))
         painter.drawRect(0, 0, self.width(), self.height())
 
+        # draw the shooted firework
         if (self.firework.firework != None):
             self.firework.firework.drawPoint(painter)
 
-        if (not self.firework.isDead()):
-            # print(len(self.firework.particles))
-            for i, p in enumerate(self.firework.particles, 1):
-            # for p in self.particles:
-                # if (i != 0):
-                    # print(i, p.position.x(), p.position.y(), p.velocity.x(), p.velocity.y(), p.acceleration.x(), p.acceleration.y())
-                p.drawPoint(painter)
+        # draw the exploded firework
+        # print(len(self.firework.particles))
+        # if (self.firework.firework == None):
+            # self.firework.newp1.drawPoint(painter)
+            # self.firework.newp2.drawPoint(painter)
+        # for i in range(len(self.firework.particles) - 1, -1, -1):
+        for i in range(len(self.firework.particles)):
+            p = self.firework.particles[i]
+            p.drawPoint(painter)
 
         painter.end()
 
@@ -62,18 +65,7 @@ class GLWidget(QOpenGLWidget):
     def animate(self):
         self.firework.shoot()
 
-        # self.particles = self.firework.getParticles()
-        # print(len(self.particles))
-        # for i in range(len(self.particles)-1, -1, -1): 
-            # p = self.particles[i]                       
-            # p.applyForce(self.gravity)                  
-            # p.update()                                  
-            # if (p.isDead()):                            
-                # self.particles.remove(p)                
-
         self.update()
-
-
 
 
 if __name__ == '__main__':
