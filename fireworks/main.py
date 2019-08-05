@@ -10,7 +10,6 @@ from PyQt5.QtGui import QPen, QBrush, QColor, QPixmap
 from PyQt5.QtGui import QPainter, QSurfaceFormat
 from PyQt5.QtWidgets import QApplication, QOpenGLWidget
 
-import OpenGL.GL as gl                                                        
 from ParticleSystem import Firework
 
 class GLWidget(QOpenGLWidget):
