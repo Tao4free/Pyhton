@@ -19,7 +19,6 @@ a3 = abc.from_const(b=41)
 a4 = abc().from_const(b=51)
 a5 = abc().from_const(b=61)
 
-
 a1.printme()
 a2.printme()
 a3.printme()
