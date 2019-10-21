@@ -5,7 +5,7 @@
 # https://stackoverflow.com/questions/19522567/how-to-ignore-files-starting-with-a-period-using-watchmedo/19602316
 # https://stackoverflow.com/questions/16261425/monitoring-a-single-file/16261529#16261529
 
-import os, sys, shutil
+import os, sys
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler

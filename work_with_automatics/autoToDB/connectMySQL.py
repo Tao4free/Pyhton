@@ -5,7 +5,6 @@
 # https://dev.mysql.com/doc/connector-python/en/connector-python-example-connecting.html
 # https://dev.mysql.com/doc/refman/5.7/en/insert-on-duplicate.html
 
-import os, sys
 import mysql.connector
 
 

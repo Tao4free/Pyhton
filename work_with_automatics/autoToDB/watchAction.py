@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-import os, sys, shutil
+import os
 import time
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
@@ -31,7 +31,7 @@ def getTimeLabel(filename):
 
 
 def pushToSQL(time, label):
-    addRec = ("INSERT INTO standup_logID"
+    addRec = ("INSERT INTO yourTable"
               "(time, label)"
               "VALUES (%s, %s) ON DUPLICATE KEY UPDATE label=%s")
     rec = (time, label, label)
@@ -76,6 +76,7 @@ if __name__ == "__main__":
     observer.start()
     try:
         while True:
+            # the time is the in-built module
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
