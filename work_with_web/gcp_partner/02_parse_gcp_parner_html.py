@@ -28,18 +28,22 @@ for i, card in enumerate(cards, 1):
     head = card.find("h3").get_text()
     company = head.replace('\n', '').replace(',', '')
     company = company.strip()
-    nstars = card.get_text().count("star") - 1
+    specs = card.find('div', {'class':['card__main-body--indented']}).get_text()
+    specs = specs.replace('\n', '').split(',')
+    specs_num = len(specs)
 
-    dic[company] = nstars
-    #print("%03d    %-60s    %-5s" % (i, company, nstars))
+    dic[company] = specs_num
 
 # Sort by the value of dictionary
 n = 0
-#of.write("%3s    %-50s    %-5s\n" % ("No.", "Company", "Stars")) # old format
-of.write('{:<3}    {:<50}    {:<5}\n'.format('No.', 'company', 'Stars'))
+of.write('{:<3}    {:<52}    {:<2}\n'.format('No.', 'Company', 'Stars'))
 for k, v in sorted(dic.items(), key=lambda x: -x[1]):
     n += 1
-    #of.write("%03d    %-50s    %-5s\n" % (n, str(k), str(v))) # old format
-    of.write('{:3d}    {:-<50}    {:^5}\n'.format(n, str(k), str(v)))
-    #print(str(k) + ": " + str(v))
+    cjk_num = 0
+    for s in str(k):
+        if len(s.encode('utf-8')) == 3:
+            cjk_num += 1 
+    hyphen_num = 52 - len(k)  - cjk_num
+    company_hyphen = str(k) + '-'*hyphen_num
+    of.write('{}    {}    {}\n'.format(str(n).ljust(3), company_hyphen, str(v).rjust(2)))
 

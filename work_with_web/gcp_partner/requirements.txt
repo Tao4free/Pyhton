@@ -1,0 +1,4 @@
+bs4
+requests
+selenium
+chromedriver-binary==84.0.4147.30.0

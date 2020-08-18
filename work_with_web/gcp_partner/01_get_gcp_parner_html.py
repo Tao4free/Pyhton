@@ -15,7 +15,7 @@ from selenium.common.exceptions import NoSuchElementException
 f = open("gcpPartner.html", "w", encoding='utf-8')
 
 # Initialization
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(executable_path="./chromedriver")
 
 # Set window position far away to hide
 driver.set_window_position(-10000,0)
