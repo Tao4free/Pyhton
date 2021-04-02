@@ -23,19 +23,27 @@ FROM `bigquery-public-data.github_repos.languages3`
 GROUP BY language.name
 """
 
-queries = [query1, query2]
+# queries = [query1, query2]
+queries = [query1]
 job_config = bigquery.QueryJobConfig(use_query_cache=False)
 
-awaiting_jobs = set()
+awaiting_jobs = dict()
+awaiting_jobs_set = set()
 
 def callback(future):
+    print(awaiting_jobs)
     try:
-        future.result()
+        # print(vars(future))
+        # print(future.result())
+        result = future.result()
+        print(future.destination)
+        # print(result)
     except NotFound as e:
         print('Catch not found succeeded!')
     except Exception as e:
         print(repr(e))
-    awaiting_jobs.discard(future.job_id)
+    awaiting_jobs.pop(future.job_id)
+    awaiting_jobs_set.discard(future.job_id)
 
 
 def normal_run():
@@ -46,7 +54,9 @@ def normal_run():
 def normal_run_no_result():
     for query in queries:
         job = client.query(query, job_config=job_config)
-        awaiting_jobs.add(job.job_id)
+        awaiting_jobs_set.add(job.job_id)
+        # awaiting_jobs.add({job.job_id: 'nihao'})
+        awaiting_jobs[job.job_id] = 'nihao'
         job.add_done_callback(callback)
 
     while awaiting_jobs:
